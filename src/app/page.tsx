@@ -1890,10 +1890,10 @@ export default function Home() {
               className="bg-white border-4 border-black w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] grid grid-cols-1 md:grid-cols-12 overflow-hidden text-black font-body"
             >
               {/* Media Left Column */}
-              <div className="md:col-span-7 bg-zinc-900 flex flex-col justify-center items-center aspect-video md:aspect-auto p-4 relative border-b-2 md:border-b-0 md:border-r-2 border-black min-h-[300px]">
+              <div className="md:col-span-7 bg-zinc-900 flex flex-col justify-center items-center p-4 relative border-b-2 md:border-b-0 md:border-r-2 border-black min-h-[300px] w-full">
                 {isVideoPlaying ? (
-                  <div className="w-full h-full flex flex-col justify-between relative min-h-[280px]">
-                    <div className="flex justify-between items-center text-zinc-400 border-b border-zinc-800 pb-1.5 mb-2 px-2">
+                  <div className="w-full aspect-video flex flex-col justify-between relative bg-black rounded overflow-hidden">
+                    <div className="flex justify-between items-center text-zinc-400 border-b border-zinc-850 bg-zinc-900/90 py-1.5 px-3 z-10">
                       <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-300">{selectedProject.title} Demo</span>
                       <button 
                         onClick={() => setIsVideoPlaying(false)}
@@ -1903,24 +1903,22 @@ export default function Home() {
                       </button>
                     </div>
                     
-                    <div className="flex-1 w-full flex items-center justify-center overflow-hidden bg-black rounded">
+                    <div className="flex-1 w-full relative bg-black">
                       {selectedProject.youtubeUrl ? (
                         <iframe 
-                          width="100%" 
-                          height="100%" 
                           src={selectedProject.youtubeUrl} 
                           title={`${selectedProject.title} YouTube Demo`}
                           frameBorder="0" 
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                           allowFullScreen
-                          className="w-full h-full rounded"
+                          className="absolute inset-0 w-full h-full"
                         ></iframe>
                       ) : selectedProject.videoUrl ? (
                         <video 
                           src={selectedProject.videoUrl} 
                           controls 
                           autoPlay 
-                          className="w-full h-full object-contain rounded"
+                          className="absolute inset-0 w-full h-full object-contain"
                         />
                       ) : (
                         <div className="w-full h-full bg-zinc-950 flex flex-col justify-between p-4 font-mono text-[10px] text-green-500">
