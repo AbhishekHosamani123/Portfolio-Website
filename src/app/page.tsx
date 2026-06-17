@@ -213,6 +213,19 @@ const eventsData: EventItem[] = [
     imgUrl: "/journey/Judge_at_Yukti_fest_2k26.jpeg"
   },
   {
+    id: "yuktijudge",
+    category: "judging",
+    title: "Yukti Judge Panel",
+    subtitle: "Jury Evaluator",
+    description: "Invited as a Jury Judge to evaluate advanced software architectures at Yukti 2K26.",
+    detailDescription: "Acted as jury evaluator for coding rounds, student web presentations, and backend systems integrations during the national level Yukti fest.",
+    date: "April 10, 2026",
+    location: "VTU Campus, Belagavi",
+    metric: "Jury Judge",
+    type: "badge",
+    imgUrl: "/journey/Yukti Judge.jpeg"
+  },
+  {
     id: "niit",
     category: "workshops",
     title: "NIIT Workshop Conductor",
@@ -365,7 +378,8 @@ const journeyGalleryItems: JourneyGalleryItem[] = [
   { id: 34, title: "Python Grading Desk", eventName: "Evogen 2025 Desk", year: "2025", imgUrl: "/journey/evogen 2025 round head 4.jpg", description: "Checking Python script execution and indexing scoring metrics." },
   { id: 35, title: "VTU Hackathon Feedback", eventName: "Yukti 2K26 Feedback", year: "2026", imgUrl: "/journey/Judge_at_Yukti_fest_2k26_3.jpeg", description: "Giving architecture and routing reviews to student project teams." },
   { id: 36, title: "Jury Panel Discussion", eventName: "Yukti 2K26 Jury", year: "2026", imgUrl: "/journey/Judge_at_Yukti_fest_2k26._1.jpeg", description: "Consolidating final grades and scores with fellow department judges." },
-  { id: 37, title: "Hackfest Trophy Presentation", eventName: "GCC Hackfest Award", year: "2025", imgUrl: "/journey/HackFest 2nd Price In Gogte collage of commerce Image .jpeg", description: "Standing with the GCC Hackfest organizing committee upon receiving 2nd place." }
+  { id: 37, title: "Hackfest Trophy Presentation", eventName: "GCC Hackfest Award", year: "2025", imgUrl: "/journey/HackFest 2nd Price In Gogte collage of commerce Image .jpeg", description: "Standing with the GCC Hackfest organizing committee upon receiving 2nd place." },
+  { id: 38, title: "Yukti Judge Panel", eventName: "Yukti 2K26 Fest", year: "2026", imgUrl: "/journey/Yukti Judge.jpeg", description: "Invited as a jury evaluator for coding rounds and software architectures at the national level Yukti fest." }
 ];
 
 function TechJourneyCarousel() {
@@ -1984,14 +1998,16 @@ export default function Home() {
                 </div>
 
                 {/* Mock physical Polaroid/Certificate graphic frame / Real Photo */}
-                <div className="border border-zinc-200 bg-[#F8F6F2] aspect-video w-full mb-6 rounded-lg overflow-hidden flex flex-col justify-center items-center relative select-none shadow-inner bg-zinc-100">
-                  {selectedEvent.imgUrl ? (
+                {selectedEvent.imgUrl ? (
+                  <div className="border border-zinc-200 bg-[#F8F6F2] w-full mb-6 rounded-lg overflow-hidden flex justify-center items-center relative select-none shadow-inner bg-zinc-100 max-h-[60vh]">
                     <img 
                       src={selectedEvent.imgUrl} 
                       alt={selectedEvent.title} 
-                      className="w-full h-full object-cover pointer-events-none select-none"
+                      className="max-w-full max-h-[60vh] w-auto h-auto object-contain pointer-events-none select-none"
                     />
-                  ) : (
+                  </div>
+                ) : (
+                  <div className="border border-zinc-200 bg-[#F8F6F2] aspect-video w-full mb-6 rounded-lg overflow-hidden flex flex-col justify-center items-center relative select-none shadow-inner bg-zinc-100">
                     <>
                       {selectedEvent.type === "certificate" && (
                         <div className="border-4 border-double border-zinc-300 w-full h-full p-4 flex flex-col justify-between items-center bg-[#FAF9F6] relative">
@@ -2045,8 +2061,8 @@ export default function Home() {
                         </div>
                       )}
                     </>
-                  )}
-                </div>
+                  </div>
+                )}
 
                 {/* Event text data */}
                 <h3 className="text-2xl font-black uppercase font-display leading-none">{selectedEvent.title}</h3>
