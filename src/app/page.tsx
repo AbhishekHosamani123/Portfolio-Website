@@ -386,6 +386,7 @@ function TechJourneyCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [windowWidth, setWindowWidth] = useState(1200);
   const [isHovered, setIsHovered] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<JourneyGalleryItem | null>(null);
   
   const items = journeyGalleryItems;
   const length = items.length;
@@ -527,9 +528,11 @@ function TechJourneyCarousel() {
                   zIndex: 30 - Math.abs(diff) * 10
                 }}
                 transition={{ type: "spring", stiffness: 180, damping: 24 }}
-                onTap={() => {
+                 onTap={() => {
                   if (diff !== 0) {
                     setCurrentIndex(index);
+                  } else {
+                    setSelectedItem(item);
                   }
                 }}
                 className={`w-[250px] sm:w-[310px] aspect-[4/5] bg-white border-2 border-black p-4 rounded-xl flex flex-col justify-between select-none transition-shadow ${
@@ -577,8 +580,65 @@ function TechJourneyCarousel() {
       </div>
 
       <div className="text-center text-[10px] font-mono text-zinc-400 mt-8 uppercase tracking-wider select-none">
-        Drag slider, swipe, or use keyboard arrow keys &bull; Click card to center
+        Drag slider, swipe, or use keyboard arrow keys &bull; Click card to center &bull; Click active center card to zoom
       </div>
+
+      {/* Lightbox Modal for Tech Journey Carousel Items */}
+      <AnimatePresence>
+        {selectedItem && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedItem(null)}
+            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.95, y: 15 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 15 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white border-4 border-black w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-6 text-black font-body flex flex-col justify-between"
+            >
+              <div>
+                <div className="flex justify-between items-center border-b border-zinc-150 pb-3 mb-4">
+                  <span className="bg-[#3D00FF]/5 text-[#3D00FF] text-[9px] font-mono font-bold uppercase px-2.5 py-0.5 rounded">
+                    {selectedItem.eventName}
+                  </span>
+                  <span className="text-xs font-mono font-bold text-zinc-400">{selectedItem.year}</span>
+                </div>
+
+                {/* Display photo in its exact original aspect ratio */}
+                <div className="border border-zinc-200 bg-[#F8F6F2] w-full mb-6 rounded-lg overflow-hidden flex justify-center items-center relative select-none shadow-inner bg-zinc-100 max-h-[60vh]">
+                  <img
+                    src={selectedItem.imgUrl}
+                    alt={selectedItem.title}
+                    className="max-w-full max-h-[60vh] w-auto h-auto object-contain pointer-events-none select-none"
+                  />
+                </div>
+
+                <h3 className="text-2xl font-black uppercase font-display leading-none">{selectedItem.title}</h3>
+                <p className="text-xs text-zinc-550 font-bold mt-1">{selectedItem.eventName}</p>
+                <p className="text-[11px] text-zinc-650 font-bold mt-4 leading-relaxed">
+                  {selectedItem.description}
+                </p>
+              </div>
+
+              <div className="mt-8 border-t border-zinc-150 pt-4 flex justify-between items-center">
+                <span className="text-[9px] font-mono font-bold text-green-600 uppercase flex items-center gap-1">
+                  ★ Verified Memory Record
+                </span>
+                <button
+                  onClick={() => setSelectedItem(null)}
+                  className="border-2 border-black px-4 py-1.5 bg-white hover:bg-black hover:text-white font-mono font-black uppercase text-[10px] transition-colors cursor-pointer"
+                >
+                  Close Photo
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
