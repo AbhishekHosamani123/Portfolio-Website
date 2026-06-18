@@ -1009,7 +1009,7 @@ export default function Home() {
               {/* Status Badge 1: Location */}
               <div className="absolute top-12 left-2 md:left-6 bg-white border border-zinc-200 px-3 py-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-[10px] font-mono font-black uppercase rounded flex items-center gap-1.5">
                 <MapPin className="w-3.5 h-3.5 text-[#FF4B1F]" />
-                Belagavi, India
+                Bengaluru, India
               </div>
 
               {/* Status Badge 2: AI Engineer */}
@@ -1180,7 +1180,29 @@ export default function Home() {
 
           {/* Right Side: Interactive UI Simulator */}
           <div className="lg:col-span-6 w-full">
-            <GitChatSimulator />
+            <div className="border-4 border-black bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] rounded-xl overflow-hidden w-full aspect-square flex flex-col bg-zinc-950">
+              {/* Window Header */}
+              <div className="bg-[#111111] px-4 py-3 border-b-2 border-black flex justify-between items-center text-white shrink-0">
+                <div className="flex gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-[#FF4B1F]" />
+                  <div className="w-3 h-3 rounded-full bg-[#FFEA00]" />
+                  <div className="w-3 h-3 rounded-full bg-[#22C55E]" />
+                </div>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-450">gitchat_demo.mp4</span>
+              </div>
+              
+              {/* Video body */}
+              <div className="flex-1 w-full bg-zinc-950 relative overflow-hidden flex items-center justify-center">
+                <video 
+                  src="/GitChat_Demo.mp4" 
+                  controls 
+                  autoPlay 
+                  muted 
+                  loop 
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            </div>
           </div>
 
         </div>
