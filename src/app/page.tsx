@@ -280,7 +280,7 @@ const eventsData: EventItem[] = [
   {
     id: "alines",
     category: "hackathons",
-    title: "Alines 2.0 Hackathon",
+    title: "Alliance 2.0 Hackathon",
     subtitle: "Competitor & Developer",
     description: "Built automated serverless scraping pipelines in 24 hours.",
     detailDescription: "Designed and coded serverless automation workflows connecting social API scopes under rapid development hackathon rules.",
@@ -349,7 +349,7 @@ const journeyGalleryItems: JourneyGalleryItem[] = [
   { id: 5, title: "NIIT Guest Lecture", eventName: "Data Analytics Bootcamp", year: "2026", imgUrl: "/journey/Data Analytics Workshop.jpg", description: "Instructed 120+ computer science students on advanced Power BI dashboarding." },
   { id: 6, title: "Internship Certificate", eventName: "Inera Software AI Intern", year: "2025", imgUrl: "/journey/Inera Software Internship.jpg", description: "Completed internship constructing production RAG databases and FastAPI routers." },
   { id: 7, title: "GDG DevFest Hubli", eventName: "Google Developer Group", year: "2024", imgUrl: "/journey/Google dev Fest 2k24.jpg", description: "Participated and collaborated on scaling APIs with Google developer leads." },
-  { id: 8, title: "Alines Hackathon Entry", eventName: "Alines 2.0 Hackathon", year: "2025", imgUrl: "/journey/Alines 2.0 hackathon.jpg", description: "Coded and deployed AWS serverless scraping pipelines in 24 hours." },
+  { id: 8, title: "Alliance Hackathon Entry", eventName: "Alliance 2.0 Hackathon", year: "2025", imgUrl: "/journey/Alines 2.0 hackathon.jpg", description: "Coded and deployed AWS serverless scraping pipelines in 24 hours." },
   { id: 9, title: "Magnum Opus Honors", eventName: "GCC Project Expo", year: "2025", imgUrl: "/journey/Magnum Winner.jpg", description: "Recognized for engineering complexity in project presentation & backend design." },
   { id: 10, title: "Git Hackathon Winner", eventName: "Git Hackfest", year: "2025", imgUrl: "/journey/GIT Havkathon.jpg", description: "Built Git-monitored multi-agent models under strict constraints." },
   { id: 11, title: "Visit At VTU", eventName: "VTU Campus Seminar", year: "2026", imgUrl: "/journey/Visit At VTU.jpg", description: "Visited VTU departments for technical exchange and judging invitations." },
@@ -897,10 +897,19 @@ export default function Home() {
             <Linkedin className="w-4.5 h-4.5" />
           </a>
           <a 
-            href="/Abhishek_Hosamani.pdf" 
+            href="https://mail.google.com/mail/?view=cm&fs=1&to=abhishekhosamani522@gmail.com" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="p-2 text-black hover:text-[#3D00FF] transition-all"
+            aria-label="Send Email"
+          >
+            <Mail className="w-4.5 h-4.5" />
+          </a>
+          <a 
+            href="/Abhishek_Hosamani_Resume.pdf" 
             target="_blank" 
             rel="noreferrer" 
-            download="Abhishek_Hosamani.pdf"
+            download="Abhishek_Hosamani_Resume.pdf"
             className="px-4 py-2 bg-[#3D00FF] text-white font-bold uppercase text-xs rounded shadow-sm hover:bg-black transition-all flex items-center gap-1.5"
           >
             <FileText className="w-3.5 h-3.5" />
@@ -938,12 +947,15 @@ export default function Home() {
             <a href="https://www.linkedin.com/in/abhishek-hosamani/" target="_blank" rel="noreferrer" className="flex-1 justify-center py-2 bg-white text-black font-bold uppercase text-xs flex items-center gap-2 rounded border border-zinc-200 shadow-sm hover:text-[#3D00FF] transition-all">
               <Linkedin className="w-4 h-4" /> LinkedIn
             </a>
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=abhishekhosamani522@gmail.com" target="_blank" rel="noopener noreferrer" className="flex-1 justify-center py-2 bg-white text-black font-bold uppercase text-xs flex items-center gap-2 rounded border border-zinc-200 shadow-sm hover:text-[#3D00FF] transition-all">
+              <Mail className="w-4 h-4" /> Email
+            </a>
           </div>
           <a 
-            href="/Abhishek_Hosamani.pdf" 
+            href="/Abhishek_Hosamani_Resume.pdf" 
             target="_blank" 
             rel="noreferrer" 
-            download="Abhishek_Hosamani.pdf"
+            download="Abhishek_Hosamani_Resume.pdf"
             className="w-full justify-center py-2.5 bg-[#3D00FF] text-white font-bold uppercase text-xs flex items-center gap-2 hover:bg-black transition-all text-center rounded"
           >
             <FileText className="w-4 h-4" />
@@ -1053,7 +1065,7 @@ export default function Home() {
               I am a BCA student based in Belagavi, India, currently operating at the intersection of AI systems architecture and production backend engineering. I design and build highly optimized tools utilizing Python, FastAPI, vector search engines, and cloud infrastructures.
             </p>
             <p>
-              My experience is backed by practical, real-world impact. As an <strong className="text-black font-black">AI Engineer Intern at Inera Software</strong>, I architected complex RAG retrieval flows and FastAPI backends. As a <strong className="text-black font-black">Data Science Intern at Xcel Corp</strong>, I engineered crop analytics and yield prediction models.
+              My experience is backed by practical, real-world impact. As an <strong className="text-black font-black">AI Engineer Intern — Inera Software</strong>, I focused on backend development using ASP.NET Core, C#, PostgreSQL and Supabase, AI-powered workflows using Python, LLMs and RAG, as well as REST API development and third-party API integrations. As a <strong className="text-black font-black">Software Engineering Intern · Xcel Corp | Feb – May 2025</strong>, I engineered backend services and data processing workflows during a 3-month internship.
             </p>
             <p>
               I also actively drive community technical growth: conducting workshops training <strong className="text-black font-black">120+ computer science students</strong> on data analytics, acting as a <strong className="text-black font-black">Chief Guest & Judge for VTU regional coding events</strong>, and leading operations for regional hackathons.
@@ -1358,7 +1370,7 @@ export default function Home() {
           
           <div className="text-center border-r border-zinc-200 last:border-none flex flex-col justify-center">
             <span className="text-3xl sm:text-4xl font-black font-mono text-[#3D00FF]">
-              <AnimatedCounter value={52} suffix="+" />
+              <AnimatedCounter value={80} suffix="+" />
             </span>
             <span className="text-[10px] font-black uppercase tracking-wider text-zinc-400 mt-1">Repositories</span>
           </div>
@@ -1568,7 +1580,7 @@ export default function Home() {
           <div className="bg-white border-2 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] min-w-[280px] font-mono text-[10px] font-bold uppercase space-y-2">
             <div className="flex justify-between border-b border-zinc-100 pb-1">
               <span className="text-zinc-400">Total Public Repos:</span>
-              <span className="text-black">52 Active</span>
+              <span className="text-black">80+ Active</span>
             </div>
             <div className="flex justify-between border-b border-zinc-100 pb-1">
               <span className="text-zinc-400">Active AI Projects:</span>
@@ -1595,7 +1607,6 @@ export default function Home() {
             <div className="border-2 border-black bg-white p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
               <div className="flex justify-between items-center text-xs font-mono font-black uppercase border-b border-zinc-100 pb-2 mb-4 text-black">
                 <span>Contribution Heatmap Simulation</span>
-                <span className="text-green-600 font-bold">500+ Contributions This Year</span>
               </div>
               
               {/* Heatmap Grid */}
@@ -1746,8 +1757,8 @@ export default function Home() {
             {[
               { year: "2023", title: "Core Software Logic", desc: "Studied memory execution parameters, data structures, and object-oriented algorithms." },
               { year: "2024", title: "Regional Tech Outreach", desc: "Collaborated on architectural design paradigms with system leads at Google DevFest 2024." },
-              { year: "2025", title: "ML Engineering Intern", desc: "Engineered predictive crop assessment algorithms yielding 92% evaluation reliability at Xcel Corp." },
-              { year: "2025", title: "AI Engineering Intern", desc: "Orchestrated backend pipeline configurations utilizing FastAPI and Pinecone at Inera Software." },
+              { year: "Feb – May 2025", title: "Software Engineering Intern · Xcel Corp", desc: "Engineered backend services and data processing workflows during a 3-month internship at Xcel Corp." },
+              { year: "Dec 2025 – May 2026", title: "AI Engineer Intern — Inera Software", desc: "Backend development using ASP.NET Core, C#, PostgreSQL and Supabase; AI-powered workflows using Python, LLMs and RAG; REST API development and third-party API integrations." },
               { year: "2026", title: "Academic & Tech Guest", desc: "Invited to conduct university level lecture Series at NIIT and judge VTU coding challenges." },
               { year: "2026", title: "AI Product Architect", desc: "Currently open to backend developer, software engineer, and AI architect roles globally." }
             ].map((milestone, idx) => (
@@ -1803,19 +1814,19 @@ export default function Home() {
 
         <div className="flex flex-wrap justify-center gap-4">
           <a 
-            href="/Abhishek_Hosamani.pdf" 
+            href="/Abhishek_Hosamani_Resume.pdf" 
             target="_blank" 
             rel="noreferrer" 
-            download="Abhishek_Hosamani.pdf"
+            download="Abhishek_Hosamani_Resume.pdf"
             className="border-2 border-black bg-[#3D00FF] text-white font-black uppercase px-8 py-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-black hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all text-xs sm:text-sm flex items-center gap-2"
           >
             <FileText className="w-5 h-5" />
             Download Resume PDF
           </a>
           <a 
-            href="mailto:abhishekhosamani522@gmail.com" 
+            href="https://mail.google.com/mail/?view=cm&fs=1&to=abhishekhosamani522@gmail.com" 
             target="_blank" 
-            rel="noreferrer" 
+            rel="noopener noreferrer" 
             className="border-2 border-black bg-white text-black font-black uppercase px-8 py-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-[#3D00FF] hover:text-white hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all text-xs sm:text-sm flex items-center gap-2"
           >
             <Mail className="w-5 h-5" />
@@ -1857,9 +1868,9 @@ export default function Home() {
             <Linkedin className="w-5 h-5" />
           </a>
           <a 
-            href="mailto:abhishekhosamani522@gmail.com" 
+            href="https://mail.google.com/mail/?view=cm&fs=1&to=abhishekhosamani522@gmail.com" 
             target="_blank" 
-            rel="noreferrer" 
+            rel="noopener noreferrer" 
             className="p-2 text-black hover:text-[#3D00FF] transition-all"
             aria-label="Send Email"
           >
