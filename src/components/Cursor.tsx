@@ -77,10 +77,9 @@ export default function CustomCursor() {
   return (
     <motion.div
       className="fixed top-0 left-0 rounded-full pointer-events-none z-[9999] mix-blend-difference"
-      variants={variants}
-      variant={cursorVariant}
       initial={{ opacity: 0 }}
       animate={{
+        ...(variants[cursorVariant as keyof typeof variants] || variants.default),
         opacity: isVisible ? 1 : 0,
         scale: isVisible ? 1 : 0.8,
       }}
