@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Github, 
@@ -38,6 +38,25 @@ import {
   Bookmark,
   Video
 } from "lucide-react";
+
+// --- INSTAGRAM ICON HELPER ---
+function InstagramIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg 
+      className={className} 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+      strokeLinejoin="round"
+    >
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+    </svg>
+  );
+}
 
 // --- ANIMATED COUNTER HELPER ---
 function AnimatedCounter({ value, suffix = "", delay = 0 }: { value: number; suffix?: string; delay?: number }) {
@@ -79,9 +98,10 @@ interface ProjectItem {
   githubUrl?: string;
   caseStudyUrl?: string;
   metric: string;
-  type: "gitchat" | "ats" | "valentine" | "affiliate" | "saarthi" | "whatsapp";
+  type: "gitchat" | "ats" | "valentine" | "affiliate" | "saarthi" | "whatsapp" | "shopi" | "github";
   videoUrl?: string;
   youtubeUrl?: string;
+  imgUrl?: string;
 }
 
 interface EventItem {
@@ -96,6 +116,7 @@ interface EventItem {
   metric: string;
   type: "certificate" | "badge" | "event" | "code";
   imgUrl?: string;
+  imgPos?: string;
 }
 
 const cardColors = [
@@ -115,24 +136,22 @@ const projectsData: ProjectItem[] = [
     detailDescription: "GitChat answers complex codebase structure queries. It splits source code repositories into semantic chunks, generates Ada embeddings, scopes them dynamically inside Pinecone VectorDB namespaces to avoid branch cross-contamination, and generates answers using Claude and GPT endpoints via OpenRouter APIs.",
     techStack: ["FastAPI", "Pinecone VectorDB", "OpenRouter APIs", "Claude & GPT", "PostgreSQL", "Supabase", "RAG Architecture"],
     demoUrl: "https://gitchat.framer.website/",
-    githubUrl: "https://github.com/AbhishekHosamani123/GitChat-Framer-deployment-",
     caseStudyUrl: "#",
     metric: "40% Latency Drop",
     type: "gitchat",
-    videoUrl: "/GitChat_Demo.mp4"
+    videoUrl: "/GitChat.mp4"
   },
   {
     id: "ats",
     category: "ai",
-    title: "ATS Resume Analyzer",
-    description: "LLM-powered resume parsing and scoring system aligning candidates against job descriptions.",
+    title: "AI Resume Builder + ATS Score Checker",
+    description: "LLM-powered resume creation and evaluation platform aligning candidates against job descriptions.",
     detailDescription: "Evaluates standard document structures (PDF/DOCX) against Job Descriptions to generate instant ATS score grades. It uses structured GPT extraction schemas to diagnose format defects, density flaws, and missing keyword vectors.",
     techStack: ["OpenAI API", "FastAPI Backend", "Supabase DB", "React & Tailwind"],
-    githubUrl: "https://github.com/AbhishekHosamani123/Ai-Resume-Builder",
     caseStudyUrl: "#",
     metric: "Structured AI Grades",
     type: "ats",
-    videoUrl: "/ATS Resume Video.mp4"
+    videoUrl: "/Resume_Builder.mp4"
   },
   {
     id: "valentine",
@@ -142,11 +161,22 @@ const projectsData: ProjectItem[] = [
     detailDescription: "A fully deployed consumer application with Razorpay integration, secure webhook listeners, live transactional database state tracking, and AWS S3 order image cataloging. Generated real cash flow during active campaigns.",
     techStack: ["Razorpay Payments", "Supabase Backend", "AWS S3 Uploads", "REST APIs"],
     demoUrl: "https://www.instagram.com/p/DUq_v7IE9TL/?hl=en",
-    githubUrl: "https://www.instagram.com/p/DUq_v7IE9TL/?hl=en",
     caseStudyUrl: "#",
     metric: "₹7,980 Revenue",
     type: "valentine",
     videoUrl: "/Valentine_Campaign_Platform.mp4"
+  },
+  {
+    id: "shopi",
+    category: "ai",
+    title: "Shopi AI Commerce Platform",
+    description: "Autonomous AI commerce platform connecting conversational shopping agents with merchant intelligence & Razorpay.",
+    detailDescription: "Production-grade autonomous AI commerce platform built with Next.js 15, Express.js, Prisma ORM, and PostgreSQL. Features an interactive Agorio AI Shopping Agent UI for conversational product discovery, automated cart and checkout workflows, merchant analytics dashboards, and end-to-end Razorpay payment integration.",
+    techStack: ["Next.js 15", "Agorio AI Agent", "Express.js API", "Prisma ORM", "PostgreSQL", "Redis", "Razorpay Checkout"],
+    demoUrl: "https://www.youtube.com/watch?v=Wpp0BXpK16g",
+    metric: "Autonomous Commerce",
+    type: "shopi",
+    youtubeUrl: "https://www.youtube.com/embed/Wpp0BXpK16g"
   },
   {
     id: "affiliate",
@@ -157,7 +187,8 @@ const projectsData: ProjectItem[] = [
     techStack: ["Python Scraper", "AWS Lambda", "Supabase DB", "Telegram & Pinterest APIs"],
     githubUrl: "https://github.com/AbhishekHosamani123/Affiliate-Marketing-Automation",
     metric: "Serverless Automation",
-    type: "affiliate"
+    type: "affiliate",
+    imgUrl: "/Afilate_marketing.png"
   },
   {
     id: "saarthi",
@@ -166,8 +197,7 @@ const projectsData: ProjectItem[] = [
     description: "WhatsApp RAG communication bridge querying crop predictions and yield models.",
     detailDescription: "An agritech communication service connecting WhatsApp Business APIs to N8N workflows. It queries predictive crop yields utilizing Scikit-Learn models trained on 500+ regional historical harvest reports.",
     techStack: ["Scikit-Learn Regression", "N8N workflows", "WhatsApp API", "Supabase Tables"],
-    demoUrl: "https://youtu.be/bdWmysTbEUU?si=OAcUQbyKITcy0Kon",
-    githubUrl: "https://github.com/AbhishekHosamani123/SaarthiAI-New",
+    demoUrl: "https://www.youtube.com/watch?v=bdWmysTbEUU",
     metric: "92% Yield Accuracy",
     type: "saarthi",
     youtubeUrl: "https://www.youtube.com/embed/bdWmysTbEUU"
@@ -181,7 +211,19 @@ const projectsData: ProjectItem[] = [
     techStack: ["WhatsApp Business API", "Python Router", "LangChain LLM", "CRM Integration"],
     githubUrl: "https://github.com/AbhishekHosamani123/whatsapp-bot-render",
     metric: "Automated Intent Scopes",
-    type: "whatsapp"
+    type: "whatsapp",
+    imgUrl: "/whatsapp.png"
+  },
+  {
+    id: "more-github",
+    category: "ai",
+    title: "Many More Projects on GitHub",
+    description: "Explore 25+ open-source AI systems, bot architectures, cloud automations, and full-stack experiments on GitHub.",
+    detailDescription: "Continuous development across autonomous AI agents, FastAPI backends, LangChain pipelines, cloud automations, and modern React web applications. All open-source codebases, architecture diagrams, and commit histories are publicly accessible on GitHub.",
+    techStack: ["Open Source", "Autonomous Agents", "FastAPI & LangChain", "Next.js 15"],
+    demoUrl: "https://github.com/AbhishekHosamani123?tab=repositories",
+    metric: "25+ Repos",
+    type: "github"
   }
 ];
 
@@ -230,11 +272,11 @@ const eventsData: EventItem[] = [
     category: "workshops",
     title: "NIIT Workshop Conductor",
     subtitle: "Data Analytics Instruction",
-    description: "Delivered Power BI & dashboarding instruction to 120+ students.",
-    detailDescription: "Instructed a comprehensive technical training session. Covered database connectors, dashboard modeling, and Power BI interface logic for 120+ computer science students.",
+    description: "Delivered Power BI & dashboarding instruction to 200+ students.",
+    detailDescription: "Instructed a comprehensive technical training session. Covered database connectors, dashboard modeling, and Power BI interface logic for 200+ computer science students.",
     date: "Jan 15, 2026",
     location: "NIIT Institute, Belagavi",
-    metric: "120+ Trained",
+    metric: "200+ Trained",
     type: "code",
     imgUrl: "/journey/Data Analytics Workshop.jpg"
   },
@@ -249,7 +291,8 @@ const eventsData: EventItem[] = [
     location: "KLS GCC Campus",
     metric: "Core Event Head",
     type: "event",
-    imgUrl: "/journey/evogenHead.jpeg"
+    imgUrl: "/journey/evogenHead.jpeg",
+    imgPos: "center 15%"
   },
   {
     id: "evogen25",
@@ -301,7 +344,8 @@ const eventsData: EventItem[] = [
     location: "KLS GCC Campus",
     metric: "2nd Place Winner",
     type: "certificate",
-    imgUrl: "/journey/HackFest 2nd Price In Gogte collage of commerce.jpeg"
+    imgUrl: "/journey/HackFest 2nd Price In Gogte collage of commerce.jpeg",
+    imgPos: "center 18%"
   },
   {
     id: "magnum",
@@ -327,7 +371,8 @@ const eventsData: EventItem[] = [
     location: "Online Portal",
     metric: "Agent Architect",
     type: "badge",
-    imgUrl: "/journey/GIT Havkathon.jpg"
+    imgUrl: "/journey/GIT Havkathon.jpg",
+    imgPos: "72% 20%"
   }
 ];
 
@@ -339,19 +384,20 @@ interface JourneyGalleryItem {
   year: string;
   imgUrl: string;
   description: string;
+  imgPos?: string;
 }
 
 const journeyGalleryItems: JourneyGalleryItem[] = [
   { id: 1, title: "Science Day Winner", eventName: "National Science Day Expo", year: "2025", imgUrl: "/journey/Science day exhibition winner.jpg", description: "Won 1st Place overall at KLS Gogte College of Commerce Next Gen Expo." },
   { id: 2, title: "Yukti 2K26 Chief Guest", eventName: "VTU Coding Fest", year: "2026", imgUrl: "/journey/Judge_at_Yukti_fest_2k26.jpeg", description: "Invited as Chief Guest and Jury Judge for regional programming and hackathon rounds." },
-  { id: 3, title: "Hackfest Runner-Up", eventName: "GCC Hackfest", year: "2025", imgUrl: "/journey/HackFest 2nd Price In Gogte collage of commerce.jpeg", description: "Secured 2nd Place in algorithm modeling and problem solving." },
-  { id: 4, title: "Evogen Event Head", eventName: "Evogen Data Science 2026", year: "2026", imgUrl: "/journey/evogenHead.jpeg", description: "Led operations, setups, and evaluation criteria for regional tech events." },
-  { id: 5, title: "NIIT Guest Lecture", eventName: "Data Analytics Bootcamp", year: "2026", imgUrl: "/journey/Data Analytics Workshop.jpg", description: "Instructed 120+ computer science students on advanced Power BI dashboarding." },
+  { id: 3, title: "Hackfest Runner-Up", eventName: "GCC Hackfest", year: "2025", imgUrl: "/journey/HackFest 2nd Price In Gogte collage of commerce.jpeg", description: "Secured 2nd Place in algorithm modeling and problem solving.", imgPos: "center 18%" },
+  { id: 4, title: "Evogen Event Head", eventName: "Evogen Data Science 2026", year: "2026", imgUrl: "/journey/evogenHead.jpeg", description: "Led operations, setups, and evaluation criteria for regional tech events.", imgPos: "center 15%" },
+  { id: 5, title: "NIIT Guest Lecture", eventName: "Data Analytics Bootcamp", year: "2026", imgUrl: "/journey/Data Analytics Workshop.jpg", description: "Instructed 200+ computer science students on advanced Power BI dashboarding." },
   { id: 6, title: "Internship Certificate", eventName: "Inera Software AI Intern", year: "2025", imgUrl: "/journey/Inera Software Internship.jpg", description: "Completed internship constructing production RAG databases and FastAPI routers." },
   { id: 7, title: "GDG DevFest Hubli", eventName: "Google Developer Group", year: "2024", imgUrl: "/journey/Google dev Fest 2k24.jpg", description: "Participated and collaborated on scaling APIs with Google developer leads." },
   { id: 8, title: "Alliance Hackathon Entry", eventName: "Alliance 2.0 Hackathon", year: "2025", imgUrl: "/journey/Alines 2.0 hackathon.jpg", description: "Coded and deployed AWS serverless scraping pipelines in 24 hours." },
   { id: 9, title: "Magnum Opus Honors", eventName: "GCC Project Expo", year: "2025", imgUrl: "/journey/Magnum Winner.jpg", description: "Recognized for engineering complexity in project presentation & backend design." },
-  { id: 10, title: "Git Hackathon Winner", eventName: "Git Hackfest", year: "2025", imgUrl: "/journey/GIT Havkathon.jpg", description: "Built Git-monitored multi-agent models under strict constraints." },
+  { id: 10, title: "Git Hackathon Winner", eventName: "Git Hackfest", year: "2025", imgUrl: "/journey/GIT Havkathon.jpg", description: "Built Git-monitored multi-agent models under strict constraints.", imgPos: "72% 20%" },
   { id: 11, title: "Visit At VTU", eventName: "VTU Campus Seminar", year: "2026", imgUrl: "/journey/Visit At VTU.jpg", description: "Visited VTU departments for technical exchange and judging invitations." },
   { id: 12, title: "Evogen 2025 Round Head", eventName: "Evogen 2025", year: "2025", imgUrl: "/journey/evogen 2025 round head.jpg", description: "Managed challenge rounds and py-grading metrics for contesting teams." },
   { id: 13, title: "Evogen Data Analytics", eventName: "Evogen 2025", year: "2025", imgUrl: "/journey/Evogen Data Analytics 2025.jpg", description: "Facilitated student grading database and dashboard evaluation criteria." },
@@ -387,6 +433,11 @@ function TechJourneyCarousel() {
   const [windowWidth, setWindowWidth] = useState(1200);
   const [isHovered, setIsHovered] = useState(false);
   const [selectedItem, setSelectedItem] = useState<JourneyGalleryItem | null>(null);
+
+  // Swipe gesture tracking for touch devices
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+  const isSwiping = useRef(false);
   
   const items = journeyGalleryItems;
   const length = items.length;
@@ -423,16 +474,58 @@ function TechJourneyCarousel() {
     if (isHovered) return;
     const timer = setInterval(() => {
       handleNext();
-    }, 3500);
+    }, 4000);
     return () => clearInterval(timer);
   }, [currentIndex, isHovered]);
 
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+    isSwiping.current = false;
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    if (touchStartX.current === null || touchStartY.current === null) return;
+    const currentX = e.touches[0].clientX;
+    const currentY = e.touches[0].clientY;
+    const diffX = touchStartX.current - currentX;
+    const diffY = touchStartY.current - currentY;
+
+    if (Math.abs(diffX) > 12 && Math.abs(diffX) > Math.abs(diffY)) {
+      isSwiping.current = true;
+    }
+  };
+
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null || touchStartY.current === null) return;
+    const currentX = e.changedTouches[0].clientX;
+    const currentY = e.changedTouches[0].clientY;
+    const diffX = touchStartX.current - currentX;
+    const diffY = Math.abs(touchStartY.current - currentY);
+
+    if (Math.abs(diffX) > 35 && Math.abs(diffX) > diffY) {
+      if (diffX > 0) {
+        handleNext();
+      } else {
+        handlePrev();
+      }
+    }
+
+    touchStartX.current = null;
+    touchStartY.current = null;
+    setTimeout(() => {
+      isSwiping.current = false;
+    }, 150);
+  };
+
+  const isMobile = windowWidth < 640;
+
   const getXOffset = (diff: number) => {
-    if (windowWidth < 640) {
-      if (diff === -1) return -130;
-      if (diff === -2) return -240;
-      if (diff === 1) return 130;
-      if (diff === 2) return 240;
+    if (isMobile) {
+      if (diff === -1) return -150;
+      if (diff === -2) return -260;
+      if (diff === 1) return 150;
+      if (diff === 2) return 260;
       return 0;
     } else if (windowWidth < 1024) {
       if (diff === -1) return -210;
@@ -453,7 +546,7 @@ function TechJourneyCarousel() {
     <section 
       className="py-24 md:py-32 max-w-7xl mx-auto px-6 border-t-2 border-zinc-200 overflow-hidden relative"
     >
-      <div className="mb-12 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
+      <div className="mb-8 sm:mb-12 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
         <div>
           <span className="bg-[#3D00FF]/5 text-[#3D00FF] px-3 py-1 text-xs font-black uppercase font-mono rounded">
             MEMORIES & MILESTONES
@@ -466,8 +559,8 @@ function TechJourneyCarousel() {
           </p>
         </div>
 
-        {/* Carousel controls */}
-        <div className="flex gap-3 select-none">
+        {/* Desktop Carousel controls */}
+        <div className="hidden sm:flex gap-3 select-none">
           <button 
             onClick={handlePrev}
             className="w-10 h-10 rounded-full border-2 border-black bg-white flex items-center justify-center text-black hover:bg-[#3D00FF] hover:text-white hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer font-bold"
@@ -485,11 +578,14 @@ function TechJourneyCarousel() {
         </div>
       </div>
 
-      {/* 5-Slot Horizontal Carousel Area */}
+      {/* 5-Slot Horizontal Carousel Area with Touch Swipe Support */}
       <div 
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="relative w-full h-[460px] flex items-center justify-center overflow-visible mt-16 select-none"
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+        className="relative w-full h-[430px] sm:h-[470px] flex items-center justify-center overflow-visible mt-6 sm:mt-16 select-none touch-pan-y"
       >
         <div className="relative w-full max-w-5xl h-full flex items-center justify-center">
           
@@ -498,7 +594,8 @@ function TechJourneyCarousel() {
             if (diff < -length / 2) diff += length;
             if (diff > length / 2) diff -= length;
 
-            const isVisible = Math.abs(diff) <= 2;
+            // On mobile, only render 3 active items to ensure clean viewport and zero overflow
+            const isVisible = isMobile ? Math.abs(diff) <= 1 : Math.abs(diff) <= 2;
             if (!isVisible) return null;
 
             const isCenter = diff === 0;
@@ -511,31 +608,38 @@ function TechJourneyCarousel() {
                 style={{ position: "absolute" }}
                 drag="x"
                 dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.8}
+                dragElastic={0.6}
+                onDragStart={() => {
+                  isSwiping.current = true;
+                }}
                 onDragEnd={(event, info) => {
-                  const threshold = 50;
+                  const threshold = 40;
                   if (info.offset.x < -threshold) {
                     handleNext();
                   } else if (info.offset.x > threshold) {
                     handlePrev();
                   }
+                  setTimeout(() => {
+                    isSwiping.current = false;
+                  }, 150);
                 }}
                 animate={{
                   x: xOffset,
-                  scale: isCenter ? 1.0 : isSide ? 0.85 : 0.70,
-                  y: isCenter ? 0 : isSide ? 16 : 32,
-                  opacity: isCenter ? 1.0 : isSide ? 0.70 : 0.40,
+                  scale: isCenter ? 1.0 : isSide ? (isMobile ? 0.82 : 0.85) : 0.70,
+                  y: isCenter ? 0 : isSide ? (isMobile ? 12 : 16) : 32,
+                  opacity: isCenter ? 1.0 : isSide ? (isMobile ? 0.65 : 0.70) : 0.40,
                   zIndex: 30 - Math.abs(diff) * 10
                 }}
-                transition={{ type: "spring", stiffness: 180, damping: 24 }}
-                 onTap={() => {
+                transition={{ type: "spring", stiffness: 190, damping: 25 }}
+                onTap={() => {
+                  if (isSwiping.current) return;
                   if (diff !== 0) {
                     setCurrentIndex(index);
                   } else {
                     setSelectedItem(item);
                   }
                 }}
-                className={`w-[250px] sm:w-[310px] aspect-[4/5] bg-white border-2 border-black p-4 rounded-xl flex flex-col justify-between select-none transition-shadow ${
+                className={`w-[250px] sm:w-[310px] aspect-[4/5] bg-white border-2 border-black p-3.5 sm:p-4 rounded-xl flex flex-col justify-between select-none transition-shadow touch-pan-y ${
                   isCenter ? "shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] cursor-grab active:cursor-grabbing" : "shadow-[2px_2px_0px_0px_rgba(0,0,0,0.5)] cursor-pointer"
                 } group`}
               >
@@ -546,10 +650,11 @@ function TechJourneyCarousel() {
                     alt={item.title} 
                     draggable={false}
                     className="w-full h-full object-cover pointer-events-none select-none"
+                    style={(item as any).imgPos ? { objectPosition: (item as any).imgPos } : undefined}
                   />
                   
-                  {/* Hover overlay showing Short Description */}
-                  <div className="absolute inset-0 bg-black/90 text-white flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                  {/* Hover overlay showing Short Description (Desktop only to prevent sticky touch hover on mobile) */}
+                  <div className="hidden sm:flex absolute inset-0 bg-black/90 text-white flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                     <span className="text-[10px] font-mono font-black uppercase text-[#FF4B1F]">{item.eventName}</span>
                     <h4 className="text-xs font-black uppercase mt-1.5">{item.title}</h4>
                     <p className="text-[9px] text-zinc-450 mt-1 font-semibold leading-relaxed px-2">{item.description}</p>
@@ -558,12 +663,12 @@ function TechJourneyCarousel() {
                 </div>
 
                 {/* Polaroid Bottom Signature details */}
-                <div className="mt-4 font-body border-t border-zinc-100 pt-3 flex flex-col justify-between flex-1 select-none pointer-events-none">
+                <div className="mt-3 sm:mt-4 font-body border-t border-zinc-100 pt-2.5 sm:pt-3 flex flex-col justify-between flex-1 select-none pointer-events-none">
                   <div>
                     <span className="text-[9px] font-mono font-bold text-zinc-400 uppercase tracking-wider block">
                       {item.eventName}
                     </span>
-                    <h4 className="text-sm font-black uppercase text-black leading-tight mt-1 truncate">
+                    <h4 className="text-xs sm:text-sm font-black uppercase text-black leading-tight mt-1 truncate">
                       {item.title}
                     </h4>
                   </div>
@@ -579,8 +684,35 @@ function TechJourneyCarousel() {
         </div>
       </div>
 
-      <div className="text-center text-[10px] font-mono text-zinc-400 mt-8 uppercase tracking-wider select-none">
-        Drag slider, swipe, or use keyboard arrow keys &bull; Click card to center &bull; Click active center card to zoom
+      {/* Mobile-Friendly Swipe Controls & Progress Bar */}
+      <div className="flex flex-col items-center gap-3 mt-6 sm:mt-8 select-none">
+        <div className="flex items-center gap-4">
+          <button 
+            onClick={handlePrev}
+            className="w-10 h-10 rounded-full border-2 border-black bg-white flex items-center justify-center text-black hover:bg-[#3D00FF] hover:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all cursor-pointer font-bold"
+            aria-label="Previous Slide"
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </button>
+          
+          <div className="px-4 py-1.5 bg-white border-2 border-black rounded-full font-mono text-xs font-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex items-center gap-2">
+            <span className="text-[#3D00FF]">{currentIndex + 1}</span>
+            <span className="text-zinc-300">/</span>
+            <span className="text-black">{length}</span>
+          </div>
+
+          <button 
+            onClick={handleNext}
+            className="w-10 h-10 rounded-full border-2 border-black bg-white flex items-center justify-center text-black hover:bg-[#3D00FF] hover:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all cursor-pointer font-bold"
+            aria-label="Next Slide"
+          >
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+
+        <div className="text-center text-[10px] font-mono text-zinc-400 uppercase tracking-wider">
+          Swipe left/right to view next photos &bull; Tap center photo to expand
+        </div>
       </div>
 
       {/* Lightbox Modal for Tech Journey Carousel Items */}
@@ -657,21 +789,18 @@ function GitChatSimulator() {
     e.preventDefault();
     if (!chatInput.trim()) return;
     
-    const newMsg = chatInput;
-    setMessages(prev => [...prev, { sender: "user", text: newMsg }]);
+    const query = chatInput.trim();
+    setMessages(prev => [
+      ...prev, 
+      { sender: "user", text: query },
+      { sender: "ai", text: "Redirecting you to the live GitChat application at https://gitchat.framer.website/ ..." }
+    ]);
     setChatInput("");
-    setIsTyping(true);
-
-    setTimeout(() => {
-      let aiResponse = "I've analyzed the query. The repository's FastAPI routers ingest code files and structure the search space via RAG using semantic embeddings.";
-      if (newMsg.toLowerCase().includes("author") || newMsg.toLowerCase().includes("abhishek")) {
-        aiResponse = "Abhishek Umesh Hosamani is the architect behind me! He built this RAG system to solve code comprehension bottlenecks.";
-      } else if (newMsg.toLowerCase().includes("database") || newMsg.toLowerCase().includes("postgres")) {
-        aiResponse = "I use PostgreSQL and Supabase to store file structures, metadata, and user chat history for session persistence.";
-      }
-      setMessages(prev => [...prev, { sender: "ai", text: aiResponse }]);
-      setIsTyping(false);
-    }, 1200);
+    
+    const win = window.open("https://gitchat.framer.website/", "_blank");
+    if (!win) {
+      window.location.href = "https://gitchat.framer.website/";
+    }
   };
 
   return (
@@ -833,7 +962,7 @@ export default function Home() {
 
   const filteredProjects = projectFilter === "all" 
     ? projectsData 
-    : projectsData.filter(item => item.category === projectFilter);
+    : projectsData.filter(item => item.category === projectFilter || item.type === "github");
 
   const filteredEvents = proofFilter === "all" 
     ? eventsData 
@@ -897,6 +1026,15 @@ export default function Home() {
             <Linkedin className="w-4.5 h-4.5" />
           </a>
           <a 
+            href="https://www.instagram.com/abhishek_hosamani___/?hl=en" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="p-2 text-black hover:text-[#3D00FF] transition-all"
+            aria-label="Instagram Profile"
+          >
+            <InstagramIcon className="w-4.5 h-4.5" />
+          </a>
+          <a 
             href="https://mail.google.com/mail/?view=cm&fs=1&to=abhishekhosamani522@gmail.com" 
             target="_blank" 
             rel="noopener noreferrer" 
@@ -946,6 +1084,9 @@ export default function Home() {
             </a>
             <a href="https://www.linkedin.com/in/abhishek-hosamani/" target="_blank" rel="noreferrer" className="flex-1 justify-center py-2 bg-white text-black font-bold uppercase text-xs flex items-center gap-2 rounded border border-zinc-200 shadow-sm hover:text-[#3D00FF] transition-all">
               <Linkedin className="w-4 h-4" /> LinkedIn
+            </a>
+            <a href="https://www.instagram.com/abhishek_hosamani___/?hl=en" target="_blank" rel="noopener noreferrer" className="flex-1 justify-center py-2 bg-white text-black font-bold uppercase text-xs flex items-center gap-2 rounded border border-zinc-200 shadow-sm hover:text-[#3D00FF] transition-all">
+              <InstagramIcon className="w-4 h-4" /> Instagram
             </a>
             <a href="https://mail.google.com/mail/?view=cm&fs=1&to=abhishekhosamani522@gmail.com" target="_blank" rel="noopener noreferrer" className="flex-1 justify-center py-2 bg-white text-black font-bold uppercase text-xs flex items-center gap-2 rounded border border-zinc-200 shadow-sm hover:text-[#3D00FF] transition-all">
               <Mail className="w-4 h-4" /> Email
@@ -1021,7 +1162,7 @@ export default function Home() {
               {/* Status Badge 1: Location */}
               <div className="absolute top-12 left-2 md:left-6 bg-white border border-zinc-200 px-3 py-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-[10px] font-mono font-black uppercase rounded flex items-center gap-1.5">
                 <MapPin className="w-3.5 h-3.5 text-[#FF4B1F]" />
-                Belagavi, India
+                Bangalore, India
               </div>
 
               {/* Status Badge 2: AI Engineer */}
@@ -1062,13 +1203,13 @@ export default function Home() {
           
           <div className="lg:col-span-8 space-y-6 text-zinc-700 text-sm sm:text-base md:text-lg font-semibold leading-relaxed">
             <p>
-              I am a BCA student based in Belagavi, India, currently operating at the intersection of AI systems architecture and production backend engineering. I design and build highly optimized tools utilizing Python, FastAPI, vector search engines, and cloud infrastructures.
+              I am a BCA student based in Bangalore, India, currently operating at the intersection of AI systems architecture and production backend engineering. I design and build highly optimized tools utilizing Python, FastAPI, vector search engines, and cloud infrastructures.
             </p>
             <p>
-              My experience is backed by practical, real-world impact. As an <strong className="text-black font-black">AI Engineer Intern — Inera Software</strong>, I focused on backend development using ASP.NET Core, C#, PostgreSQL and Supabase, AI-powered workflows using Python, LLMs and RAG, as well as REST API development and third-party API integrations. As a <strong className="text-black font-black">Software Engineering Intern · Xcel Corp | Feb – May 2025</strong>, I engineered backend services and data processing workflows during a 3-month internship.
+              My experience is backed by practical, real-world impact. Currently, I am a <strong className="text-black font-black">Freelance Developer at ASV Education Pvt. Ltd.</strong>, engineering an application to facilitate student learning, skill acceleration, and placement assistance. As an <strong className="text-black font-black">AI Engineer Intern — Inera Software</strong>, I focused on backend development using ASP.NET Core, C#, PostgreSQL and Supabase, AI-powered workflows using Python, LLMs and RAG, as well as REST API development and third-party API integrations. As a <strong className="text-black font-black">Software Engineering Intern · Xcel Corp | Feb – May 2025</strong>, I engineered backend services and data processing workflows during a 3-month internship.
             </p>
             <p>
-              I also actively drive community technical growth: conducting workshops training <strong className="text-black font-black">120+ computer science students</strong> on data analytics, acting as a <strong className="text-black font-black">Chief Guest & Judge for VTU regional coding events</strong>, and leading operations for regional hackathons.
+              I also actively drive community technical growth: conducting workshops training <strong className="text-black font-black">200+ computer science students</strong> on data analytics, acting as a <strong className="text-black font-black">Chief Guest & Judge for VTU regional coding events</strong>, and leading operations for regional hackathons.
             </p>
           </div>
         </div>
@@ -1126,8 +1267,8 @@ export default function Home() {
               </h4>
               <div className="grid grid-cols-3 gap-4 text-center">
                 <div className="border border-zinc-200 p-3 bg-zinc-50 rounded">
-                  <span className="block font-mono text-2xl font-black text-[#3D00FF]">-40%</span>
-                  <span className="text-[9px] uppercase font-black text-zinc-400">Retrieval Latency</span>
+                  <span className="block font-mono text-2xl font-black text-[#3D00FF]">40%</span>
+                  <span className="text-[9px] uppercase font-black text-zinc-400">Latency Reduction</span>
                 </div>
                 <div className="border border-zinc-200 p-3 bg-zinc-50 rounded">
                   <span className="block font-mono text-2xl font-black text-[#3D00FF]">3.4K+</span>
@@ -1176,15 +1317,6 @@ export default function Home() {
               >
                 <ExternalLink className="w-4 h-4" />
                 Launch Production Site
-              </a>
-              <a 
-                href="https://github.com/AbhishekHosamani123/GitChat-Framer-deployment-" 
-                target="_blank" 
-                rel="noreferrer" 
-                className="border-2 border-black px-5 py-2.5 bg-white text-black font-bold uppercase text-xs shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-[#3D00FF] hover:text-white transition-all flex items-center gap-1.5"
-              >
-                <Github className="w-4 h-4" />
-                Examine Repository
               </a>
             </div>
 
@@ -1249,7 +1381,14 @@ export default function Home() {
                 exit={{ opacity: 0, scale: 0.96 }}
                 transition={{ duration: 0.2 }}
                 key={project.id}
-                onClick={() => setSelectedProject(project)}
+                onClick={() => {
+                  if (project.type === "github") {
+                    window.open("https://github.com/AbhishekHosamani123?tab=repositories", "_blank");
+                    return;
+                  }
+                  setSelectedProject(project);
+                  setIsVideoPlaying(true);
+                }}
                 style={{ "--hover-color": cardColors[index % cardColors.length] } as React.CSSProperties}
                 className="border-2 border-black bg-white p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_var(--hover-color)] transition-all flex flex-col justify-between h-[360px] group cursor-pointer"
               >
@@ -1268,67 +1407,114 @@ export default function Home() {
                   </div>
 
                   {/* Visual Frame inside card */}
-                  <div className="border border-zinc-200 bg-[#F8F6F2] aspect-video w-full mb-4 flex flex-col justify-center items-center relative overflow-hidden p-4 text-center">
+                  <div className={`border border-zinc-200 bg-[#F8F6F2] aspect-video w-full mb-4 flex flex-col justify-center items-center relative overflow-hidden ${project.type === "ats" || project.type === "gitchat" || project.type === "valentine" || project.type === "saarthi" || project.type === "affiliate" || project.type === "whatsapp" || project.type === "shopi" || project.type === "github" ? "p-0 bg-black" : "p-4"} text-center`}>
                     
                     {project.type === "gitchat" && (
-                      <div className="w-full h-full flex flex-col justify-between p-2 bg-[#111111] text-[#22C55E] font-mono text-[6px] rounded border border-black text-left shadow-inner">
-                        <div className="flex justify-between border-b border-zinc-800 pb-1 text-[5px]">
-                          <span>https://gitchat.ai</span>
-                          <span>🟢 Active</span>
-                        </div>
-                        <div className="flex-1 py-1">
-                          <div>&gt; Loading chunk models...</div>
-                          <div className="text-[#FFEA00]">&gt; Pinecone namespaces configured successfully.</div>
-                        </div>
+                      <div className="w-full h-full relative overflow-hidden bg-black">
+                        <video 
+                          src="/GitChat.mp4" 
+                          autoPlay 
+                          muted 
+                          loop 
+                          playsInline 
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                     )}
 
                     {project.type === "ats" && (
-                      <div className="w-full h-full flex flex-col justify-between p-2 bg-white border border-zinc-300 rounded text-left shadow-inner">
-                        <span className="text-[7px] font-mono text-[#3D00FF] uppercase border-b border-zinc-100 pb-1">ATS Parser Result</span>
-                        <div className="my-1 text-center">
-                          <span className="text-2xl font-black text-black font-mono">85%</span>
-                          <span className="text-[8px] block text-zinc-400 font-mono">Compatibility Score</span>
-                        </div>
-                        <span className="text-[6px] text-zinc-500 font-mono">Job Description Match: 🟢 Strong</span>
+                      <div className="w-full h-full relative overflow-hidden bg-black">
+                        <video 
+                          src="/Resume_Builder.mp4" 
+                          autoPlay 
+                          muted 
+                          loop 
+                          playsInline 
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                     )}
 
                     {project.type === "valentine" && (
-                      <div className="w-full h-full flex flex-col justify-between p-2 bg-red-50/50 border border-red-200 rounded text-center shadow-inner">
-                        <span className="text-[7px] font-mono text-red-500 uppercase border-b border-red-100 pb-1">Campaign Revenue Metrics</span>
-                        <div className="my-1">
-                          <span className="text-xl font-black text-red-600 font-mono">₹7,980</span>
-                          <span className="text-[7px] block text-zinc-400">Processed via Razorpay</span>
+                      <div className="w-full h-full relative overflow-hidden bg-black">
+                        <video 
+                          src="/Valentine_Campaign_Platform.mp4" 
+                          autoPlay 
+                          muted 
+                          loop 
+                          playsInline 
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+
+                    {project.type === "shopi" && (
+                      <div className="w-full h-full relative overflow-hidden bg-black">
+                        <iframe 
+                          src="https://www.youtube-nocookie.com/embed/Wpp0BXpK16g?autoplay=1&mute=1&loop=1&playlist=Wpp0BXpK16g&controls=0&showinfo=0&rel=0&modestbranding=1" 
+                          title="Shopi AI Commerce Platform YouTube Demo"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          className="absolute inset-0 w-full h-full pointer-events-none scale-110 object-cover"
+                        />
+                        <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-0.5 rounded text-[8px] font-mono font-bold uppercase tracking-wider flex items-center gap-1 z-10 pointer-events-none shadow-sm">
+                          <Play className="w-2.5 h-2.5 fill-current" />
+                          YOUTUBE
                         </div>
-                        <span className="text-[6px] text-zinc-500">Webhooks & Bull; Deployed</span>
                       </div>
                     )}
 
                     {project.type === "affiliate" && (
-                      <div className="w-full h-full flex flex-col justify-center items-center bg-zinc-900 text-zinc-400 p-2 font-mono text-[6px] rounded">
-                        <div className="border border-zinc-700 p-1.5 rounded bg-zinc-950 w-full text-center text-zinc-300">
-                          AWS Lambda Trigger (Cron)
-                        </div>
-                        <div className="text-[5px] text-zinc-500 mt-1">Instagram &bull; Pinterest &bull; Telegram</div>
+                      <div className="w-full h-full relative overflow-hidden bg-zinc-950">
+                        <img 
+                          src="/Afilate_marketing.png" 
+                          alt="Affiliate Marketing Pipeline" 
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                     )}
 
                     {project.type === "saarthi" && (
-                      <div className="w-full h-full flex flex-col justify-between p-2 bg-green-50/50 border border-green-200 rounded text-left shadow-inner">
-                        <span className="text-[6px] font-mono text-green-600 uppercase border-b border-green-150 pb-1">WhatsApp ML Engine</span>
-                        <div className="my-0.5 font-mono text-[7px]">
-                          <div>Input: Crop Type = 'Ragi'</div>
-                          <div className="text-green-600">Prediction: 12.4 quintals</div>
+                      <div className="w-full h-full relative overflow-hidden bg-black">
+                        <iframe 
+                          src="https://www.youtube-nocookie.com/embed/bdWmysTbEUU?autoplay=1&mute=1&loop=1&playlist=bdWmysTbEUU&controls=0&showinfo=0&rel=0&modestbranding=1" 
+                          title="Saarthi AI YouTube Demo"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          className="absolute inset-0 w-full h-full pointer-events-none scale-110 object-cover"
+                        />
+                        <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-0.5 rounded text-[8px] font-mono font-bold uppercase tracking-wider flex items-center gap-1 z-10 pointer-events-none shadow-sm">
+                          <Play className="w-2.5 h-2.5 fill-current" />
+                          YOUTUBE
                         </div>
                       </div>
                     )}
 
                     {project.type === "whatsapp" && (
-                      <div className="w-full h-full flex flex-col justify-center items-center bg-white border border-zinc-200 p-2 rounded shadow-inner text-left font-mono text-[7px]">
-                        <span className="text-[#3D00FF] font-black uppercase text-[6px] mb-1">LangChain Pipeline</span>
-                        <span className="text-zinc-500">Query router intent matching:</span>
-                        <span className="bg-zinc-150 px-1 rounded text-black font-bold mt-1 text-[6px]">Class: CRM_LOG</span>
+                      <div className="w-full h-full relative overflow-hidden bg-zinc-950">
+                        <img 
+                          src="/whatsapp.png" 
+                          alt="WhatsApp AI Bot Pipeline" 
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+
+                    {project.type === "github" && (
+                      <div className="w-full h-full relative overflow-hidden bg-gradient-to-br from-zinc-950 via-zinc-900 to-black flex flex-col justify-center items-center text-center p-3">
+                        <div className="w-11 h-11 rounded-full bg-zinc-850 border border-zinc-700 flex items-center justify-center text-white mb-2 shadow-inner group-hover:scale-110 group-hover:border-[#3D00FF] transition-all">
+                          <Github className="w-6 h-6 text-white" />
+                        </div>
+                        <span className="text-[10px] font-mono font-black text-white uppercase tracking-wider">
+                          @AbhishekHosamani123
+                        </span>
+                        <span className="text-[8px] font-mono text-zinc-400 mt-0.5">
+                          25+ Public Repositories &bull; Open Source
+                        </span>
+                        <div className="mt-2 inline-flex items-center gap-1 text-[8px] font-mono font-bold text-white bg-[#3D00FF] px-2.5 py-0.5 rounded shadow-sm group-hover:bg-[#22C55E] transition-colors">
+                          <ExternalLink className="w-2.5 h-2.5" />
+                          View All Repositories &rarr;
+                        </div>
                       </div>
                     )}
 
@@ -1351,9 +1537,9 @@ export default function Home() {
                   </div>
 
                   <div className="border-t border-zinc-100 pt-3 text-[10px] font-mono font-bold uppercase text-zinc-400 flex justify-between items-center">
-                    <span>Inspect Details</span>
+                    <span>{project.type === "github" ? "GitHub Profile" : "Inspect Details"}</span>
                     <span className="text-black group-hover:text-[var(--hover-color)] transition-colors flex items-center gap-1">
-                      Open Lightbox <ArrowRight className="w-3.5 h-3.5" />
+                      {project.type === "github" ? "Open Repositories" : "Open Lightbox"} <ArrowRight className="w-3.5 h-3.5" />
                     </span>
                   </div>
                 </div>
@@ -1391,7 +1577,7 @@ export default function Home() {
 
           <div className="text-center border-r border-zinc-200 last:border-none flex flex-col justify-center">
             <span className="text-3xl sm:text-4xl font-black font-mono text-[#3D00FF]">
-              <AnimatedCounter value={120} suffix="+" delay={600} />
+              <AnimatedCounter value={200} suffix="+" delay={600} />
             </span>
             <span className="text-[10px] font-black uppercase tracking-wider text-zinc-400 mt-1">Students Mentored</span>
           </div>
@@ -1484,6 +1670,7 @@ export default function Home() {
                         src={event.imgUrl} 
                         alt={event.title} 
                         className="w-full h-full object-cover pointer-events-none select-none"
+                        style={event.imgPos ? { objectPosition: event.imgPos } : undefined}
                       />
                     ) : (
                       <>
@@ -1528,7 +1715,7 @@ export default function Home() {
                           <div className="w-full h-full flex flex-col justify-between bg-zinc-900 text-[#22C55E] p-2 text-left font-mono text-[7px] rounded shadow-inner">
                             <div className="border-b border-zinc-800 pb-1 flex justify-between text-zinc-500">
                               <span>workshop_conduct.py</span>
-                              <span>120+ Trained</span>
+                              <span>200+ Trained</span>
                             </div>
                             <div className="flex-1 py-1 text-[6px] text-zinc-400">
                               <div>topic = "{event.title}"</div>
@@ -1760,7 +1947,8 @@ export default function Home() {
               { year: "Feb – May 2025", title: "Software Engineering Intern · Xcel Corp", desc: "Engineered backend services and data processing workflows during a 3-month internship at Xcel Corp." },
               { year: "Dec 2025 – May 2026", title: "AI Engineer Intern — Inera Software", desc: "Backend development using ASP.NET Core, C#, PostgreSQL and Supabase; AI-powered workflows using Python, LLMs and RAG; REST API development and third-party API integrations." },
               { year: "2026", title: "Academic & Tech Guest", desc: "Invited to conduct university level lecture Series at NIIT and judge VTU coding challenges." },
-              { year: "2026", title: "AI Product Architect", desc: "Currently open to backend developer, software engineer, and AI architect roles globally." }
+              { year: "2026", title: "AI Product Architect", desc: "Currently open to backend developer, software engineer, and AI architect roles globally." },
+              { year: "2026 – Present", title: "Freelance Developer · ASV Education Pvt. Ltd.", desc: "Currently engineering an application for student learning, career preparation, and campus placement assistance." }
             ].map((milestone, idx) => (
               <div key={idx} className="flex-shrink-0 w-full md:w-[280px] flex flex-col space-y-4">
                 
@@ -1868,6 +2056,15 @@ export default function Home() {
             <Linkedin className="w-5 h-5" />
           </a>
           <a 
+            href="https://www.instagram.com/abhishek_hosamani___/?hl=en" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="p-2 text-black hover:text-[#3D00FF] transition-all"
+            aria-label="Instagram Profile"
+          >
+            <InstagramIcon className="w-5 h-5" />
+          </a>
+          <a 
             href="https://mail.google.com/mail/?view=cm&fs=1&to=abhishekhosamani522@gmail.com" 
             target="_blank" 
             rel="noopener noreferrer" 
@@ -1901,55 +2098,83 @@ export default function Home() {
               className="bg-white border-4 border-black w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] grid grid-cols-1 md:grid-cols-12 overflow-hidden text-black font-body"
             >
               {/* Media Left Column */}
-              <div className="md:col-span-7 bg-zinc-900 flex flex-col justify-center items-center p-4 relative border-b-2 md:border-b-0 md:border-r-2 border-black min-h-[300px] w-full">
-                {isVideoPlaying ? (
-                  <div className="w-full aspect-video flex flex-col justify-between relative bg-black rounded overflow-hidden">
-                    <div className="flex justify-between items-center text-zinc-400 border-b border-zinc-850 bg-zinc-900/90 py-1.5 px-3 z-10">
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-300">{selectedProject.title} Demo</span>
-                      <button 
-                        onClick={() => setIsVideoPlaying(false)}
-                        className="text-red-500 hover:underline text-[9px] uppercase font-mono font-bold cursor-pointer"
-                      >
-                        [Close Video]
-                      </button>
+              <div className={`${selectedProject.type === "valentine" ? "md:col-span-6" : "md:col-span-7"} bg-zinc-900 flex flex-col justify-center items-center p-4 relative border-b-2 md:border-b-0 md:border-r-2 border-black min-h-[300px] w-full`}>
+                {(selectedProject.videoUrl || selectedProject.youtubeUrl) ? (
+                  <div className={`w-full flex flex-col justify-between relative bg-black rounded overflow-hidden shadow-lg border border-zinc-800 ${
+                    selectedProject.type === "valentine" 
+                      ? "aspect-[9/16] max-h-[580px] max-w-[325px] mx-auto" 
+                      : "aspect-video"
+                  }`}>
+                    <div className="flex justify-between items-center text-zinc-400 border-b border-zinc-850 bg-zinc-900/90 py-1.5 px-3 z-10 shrink-0">
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5 truncate">
+                        <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse shrink-0" />
+                        {selectedProject.title} Demo
+                      </span>
+                      <span className="text-[9px] font-mono text-zinc-400 uppercase shrink-0">Muted &bull; Unmute anytime</span>
                     </div>
                     
-                    <div className="flex-1 w-full relative bg-black">
+                    <div className="flex-1 w-full relative bg-black flex items-center justify-center overflow-hidden">
                       {selectedProject.youtubeUrl ? (
                         <iframe 
-                          src={selectedProject.youtubeUrl} 
+                          src={`${selectedProject.youtubeUrl}?autoplay=1&mute=1&rel=0`} 
                           title={`${selectedProject.title} YouTube Demo`}
                           frameBorder="0" 
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                           allowFullScreen
                           className="absolute inset-0 w-full h-full"
                         ></iframe>
-                      ) : selectedProject.videoUrl ? (
+                      ) : (
                         <video 
                           src={selectedProject.videoUrl} 
                           controls 
                           autoPlay 
-                          className="absolute inset-0 w-full h-full object-contain"
+                          muted
+                          loop
+                          playsInline
+                          className="w-full h-full object-contain"
                         />
-                      ) : (
-                        <div className="w-full h-full bg-zinc-950 flex flex-col justify-between p-4 font-mono text-[10px] text-green-500">
-                          <div className="flex-1 py-4 flex flex-col justify-center space-y-1">
-                            <div className="animate-pulse text-zinc-300 text-xs text-center border border-dashed border-zinc-700 py-6 rounded">
-                              📹 Simulating Video Order flow & API callbacks
-                            </div>
-                            <div className="text-zinc-650">// Rendering real time web integrations...</div>
-                            <div className="text-[#3D00FF] font-bold">Latency average: 82ms &bull; Webhook response: 200 OK</div>
-                          </div>
-                          <span className="text-[8px] text-zinc-650">SIMULATION MODE</span>
-                        </div>
                       )}
                     </div>
                   </div>
+                ) : selectedProject.imgUrl ? (
+                  <div className="flex flex-col h-full bg-zinc-950">
+                    <div className="bg-zinc-950 px-4 py-2 border-b border-zinc-800 flex items-center justify-between">
+                      <span className="flex items-center gap-1.5 text-[10px] font-mono text-zinc-300 font-bold uppercase tracking-wider">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        {selectedProject.title} &bull; Pipeline & Architecture
+                      </span>
+                      <span className="text-[9px] font-mono text-zinc-400 uppercase shrink-0">Architecture Diagram</span>
+                    </div>
+                    <div className="flex-1 w-full relative bg-black flex items-center justify-center overflow-hidden p-2">
+                      <img 
+                        src={selectedProject.imgUrl} 
+                        alt={selectedProject.title} 
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                  </div>
+                ) : selectedProject.type === "github" ? (
+                  <div className="flex flex-col items-center justify-center text-center p-8 text-white relative w-full h-full bg-zinc-950">
+                    <div className="w-16 h-16 rounded-full bg-zinc-900 border border-zinc-700 flex items-center justify-center text-white mb-4 shadow-inner">
+                      <Github className="w-9 h-9 text-white" />
+                    </div>
+                    <span className="font-mono text-[10px] uppercase text-zinc-400 tracking-wider">PUBLIC CODEBASE ECOSYSTEM</span>
+                    <h3 className="text-2xl font-black uppercase mt-2">Open-Source Repositories</h3>
+                    <p className="text-xs text-zinc-400 font-mono mt-2 max-w-sm">
+                      Autonomous agents, scrapers, APIs, and ML pipelines hosted on GitHub.
+                    </p>
+                    <a 
+                      href="https://github.com/AbhishekHosamani123?tab=repositories" 
+                      target="_blank" 
+                      rel="noreferrer"
+                      className="mt-6 border-2 border-white px-5 py-2.5 bg-[#3D00FF] hover:bg-white hover:text-black text-white font-mono font-bold text-xs uppercase shadow-[2px_2px_0px_0px_white] transition-all flex items-center gap-2"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      Open GitHub Profile
+                    </a>
+                  </div>
                 ) : (
                   <div className="flex flex-col items-center justify-center text-center p-8 text-white relative w-full h-full">
-                    {selectedProject.type === "gitchat" && <Cpu className="w-16 h-16 mb-4 text-[#3D00FF]" />}
-                    {selectedProject.type === "ats" && <Layers3 className="w-16 h-16 mb-4 text-[#FFEA00]" />}
-                    {selectedProject.type === "valentine" && <Play className="w-16 h-16 mb-4 text-red-500" />}
                     {selectedProject.type === "affiliate" && <Monitor className="w-16 h-16 mb-4 text-green-400" />}
                     {selectedProject.type === "saarthi" && <Activity className="w-16 h-16 mb-4 text-yellow-400" />}
                     {selectedProject.type === "whatsapp" && <Terminal className="w-16 h-16 mb-4 text-cyan-400" />}
@@ -1957,19 +2182,19 @@ export default function Home() {
                     <span className="font-mono text-[10px] uppercase text-zinc-400 tracking-wider">PROJECT PREVIEW ASSET</span>
                     <h3 className="text-xl font-black uppercase mt-2">{selectedProject.title}</h3>
                     
-                    <button 
-                      onClick={() => setIsVideoPlaying(true)}
-                      className="mt-6 border-2 border-white px-5 py-2 bg-[#3D00FF] hover:bg-white hover:text-black font-bold uppercase text-[10px] shadow-[2px_2px_0px_0px_white] transition-all flex items-center gap-1.5 cursor-pointer"
-                    >
-                      <Video className="w-3.5 h-3.5" />
-                      Play Demo Video
-                    </button>
+                    <div className="w-full bg-zinc-950 flex flex-col justify-between p-4 font-mono text-[10px] text-green-500 rounded border border-zinc-800 text-left mt-4">
+                      <div className="space-y-1">
+                        <div className="text-zinc-300 text-xs">// Production Pipeline Simulation</div>
+                        <div className="text-zinc-500">&gt; Live endpoints responsive...</div>
+                        <div className="text-[#3D00FF] font-bold">&gt; Webhook status: 200 OK</div>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
 
               {/* Detail Right Column */}
-              <div className="md:col-span-5 p-6 flex flex-col justify-between">
+              <div className={`${selectedProject.type === "valentine" ? "md:col-span-6" : "md:col-span-5"} p-6 flex flex-col justify-between`}>
                 <div>
                   <div className="flex justify-between items-center border-b border-zinc-150 pb-2 mb-4">
                     <span className="bg-[#3D00FF]/5 text-[#3D00FF] text-[9px] font-mono font-bold uppercase px-2 py-0.5 rounded">
@@ -1988,6 +2213,14 @@ export default function Home() {
                     <div className="mt-4 border border-zinc-200 bg-zinc-50 p-2.5 rounded font-mono text-[8px] text-zinc-600">
                       <div className="font-black text-[9px] text-[#3D00FF] mb-1">RAG Architecture Flow:</div>
                       <div>Repo Ingestion &rarr; Chunk Splitting &rarr; Embedding Vectors &rarr; Pinecone Namespace Query &rarr; LLM Synthesis.</div>
+                    </div>
+                  )}
+
+                  {/* Architecture flow for Shopi AI */}
+                  {selectedProject.type === "shopi" && (
+                    <div className="mt-4 border border-zinc-200 bg-zinc-50 p-2.5 rounded font-mono text-[8px] text-zinc-600">
+                      <div className="font-black text-[9px] text-[#3D00FF] mb-1">Autonomous Commerce Flow:</div>
+                      <div>Next.js 15 Storefront &rarr; Agorio AI Agent UI &rarr; Express.js Services &rarr; Prisma &amp; PostgreSQL &rarr; Razorpay Checkout.</div>
                     </div>
                   )}
 
@@ -2011,10 +2244,10 @@ export default function Home() {
                       rel="noreferrer" 
                       className="border-2 border-black py-2 bg-[#3D00FF] text-white text-center text-xs font-black uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-black transition-colors"
                     >
-                      Launch Live Demo
+                      {selectedProject.type === "github" ? "Explore Repositories on GitHub" : "Launch Live Demo"}
                     </a>
                   )}
-                  {selectedProject.githubUrl && (
+                  {selectedProject.githubUrl && (selectedProject.type === "whatsapp" || selectedProject.type === "affiliate") && (
                     <a 
                       href={selectedProject.githubUrl} 
                       target="_blank" 
@@ -2118,12 +2351,12 @@ export default function Home() {
                         <div className="w-full h-full flex flex-col justify-between bg-zinc-900 text-[#22C55E] p-4 text-left font-mono text-[9px] rounded">
                           <div className="border-b border-zinc-800 pb-1.5 flex justify-between text-zinc-500 text-[8px]">
                             <span>instructor_session_log.py</span>
-                            <span>120+ Trainees</span>
+                            <span>200+ Trainees</span>
                           </div>
                           <div className="flex-1 py-2 text-[8px] text-zinc-400 space-y-1">
                             <div>class WorkshopSession:</div>
                             <div className="pl-3 text-[#22C55E]">topic = "{selectedEvent.title}"</div>
-                            <div className="pl-3">attendees = 120</div>
+                            <div className="pl-3">attendees = 200</div>
                             <div className="pl-3">verified_by = "NIIT Directors"</div>
                           </div>
                           <div className="text-zinc-550 border-t border-zinc-800 pt-1.5 text-[8px]">{selectedEvent.subtitle}</div>
