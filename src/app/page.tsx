@@ -148,6 +148,7 @@ const projectsData: ProjectItem[] = [
     description: "LLM-powered resume creation and evaluation platform aligning candidates against job descriptions.",
     detailDescription: "Evaluates standard document structures (PDF/DOCX) against Job Descriptions to generate instant ATS score grades. It uses structured GPT extraction schemas to diagnose format defects, density flaws, and missing keyword vectors.",
     techStack: ["OpenAI API", "FastAPI Backend", "Supabase DB", "React & Tailwind"],
+    demoUrl: "https://ai-resume-builder-six-orpin.vercel.app",
     caseStudyUrl: "#",
     metric: "Structured AI Grades",
     type: "ats",
@@ -1538,9 +1539,24 @@ export default function Home() {
 
                   <div className="border-t border-zinc-100 pt-3 text-[10px] font-mono font-bold uppercase text-zinc-400 flex justify-between items-center">
                     <span>{project.type === "github" ? "GitHub Profile" : "Inspect Details"}</span>
-                    <span className="text-black group-hover:text-[var(--hover-color)] transition-colors flex items-center gap-1">
-                      {project.type === "github" ? "Open Repositories" : "Open Lightbox"} <ArrowRight className="w-3.5 h-3.5" />
-                    </span>
+                    <div className="flex items-center gap-2">
+                      {project.demoUrl && project.type !== "github" && (
+                        <a
+                          href={project.demoUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="text-[#3D00FF] hover:bg-[#3D00FF] hover:text-white transition-all px-1.5 py-0.5 rounded border border-[#3D00FF]/30 flex items-center gap-1 text-[9px] font-mono font-black"
+                          title="Launch Live Demo"
+                        >
+                          <ExternalLink className="w-2.5 h-2.5" />
+                          Live Demo
+                        </a>
+                      )}
+                      <span className="text-black group-hover:text-[var(--hover-color)] transition-colors flex items-center gap-1">
+                        {project.type === "github" ? "Open Repositories" : "Open Lightbox"} <ArrowRight className="w-3.5 h-3.5" />
+                      </span>
+                    </div>
                   </div>
                 </div>
               </motion.div>

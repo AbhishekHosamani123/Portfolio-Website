@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Abhishek Hosamani — AI Systems & Backend Developer Portfolio
 
-## Getting Started
+> 🌐 **Live Website:** [portfolio-website-nu-five-23.vercel.app](https://portfolio-website-nu-five-23.vercel.app)
 
-First, run the development server:
+[![Live Website](https://img.shields.io/badge/Live_Demo-portfolio--website--nu--five--23.vercel.app-3D00FF?style=for-the-badge&logo=vercel&logoColor=white)](https://portfolio-website-nu-five-23.vercel.app)
+[![GitHub](https://img.shields.io/badge/GitHub-AbhishekHosamani123-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/AbhishekHosamani123)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/abhishek-hosamani)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📌 Overview
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Welcome to the personal developer portfolio of **Abhishek Umesh Hosamani** — AI Systems Engineer & Backend Developer based in Bangalore, India. Specializing in production-grade LLM pipelines, Retrieval-Augmented Generation (RAG), automation frameworks, and scalable APIs.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 🌟 Featured Projects
 
-## Learn More
+- **GitChat AI**: Production-ready codebase RAG query assistant utilizing Pinecone namespace scopes and FastAPI.
+  - [Live Demo](https://gitchat.framer.website/)
+- **AI Resume Builder + ATS Score Checker**: LLM-powered resume creation and evaluation platform aligning candidates against job descriptions.
+  - [Live Demo](https://ai-resume-builder-six-orpin.vercel.app)
+- **Valentine Campaign Platform**: High-performance marketing platform with Razorpay checkout and AWS S3 integrations.
+  - [Demo](https://www.instagram.com/p/DUq_v7IE9TL/?hl=en)
+- **Shopi AI Commerce Platform**: Autonomous AI commerce platform connecting conversational shopping agents with merchant intelligence & Razorpay.
+  - [Video Demo](https://www.youtube.com/watch?v=Wpp0BXpK16g)
+- **Saarthi AI**: WhatsApp RAG communication bridge querying crop predictions and yield models with Scikit-Learn.
+  - [Video Demo](https://www.youtube.com/watch?v=bdWmysTbEUU)
+- **Affiliate Marketing Pipeline & WhatsApp AI Bot**: Serverless AWS Lambda microservices and customer routing engines.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠️ Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Frontend & UI**: Next.js 15 (Turbopack), React 19, TypeScript, Tailwind CSS, Framer Motion, Lucide Icons
+- **Backend & AI**: Python, FastAPI, OpenAI API, Claude & GPT via OpenRouter, Pinecone VectorDB, LangChain, CrewAI
+- **Database & Cloud**: PostgreSQL, Supabase, AWS Lambda, Redis, REST APIs, Webhooks, Razorpay
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 💻 Getting Started Locally
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/AbhishekHosamani123/Portfolio-Website.git
+   cd Portfolio-Website
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open in browser:**
+   Navigate to [http://localhost:3000](http://localhost:3000) to view the site.
+
+---
+
+## 📬 Contact & Links
+
+- **Portfolio**: [portfolio-website-nu-five-23.vercel.app](https://portfolio-website-nu-five-23.vercel.app)
+- **GitHub**: [@AbhishekHosamani123](https://github.com/AbhishekHosamani123)
+- **Email**: [abhishekhosamani01@gmail.com](mailto:abhishekhosamani01@gmail.com)
